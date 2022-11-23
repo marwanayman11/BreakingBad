@@ -14,12 +14,12 @@ class DetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View{
+    ): View {
         // Inflate the layout for this fragment
         val binding = FragmentDetailBinding.inflate(layoutInflater)
         val character = DetailFragmentArgs.fromBundle(requireArguments()).character
         val viewModelFactory = DetailViewModelFactory(character)
-        val viewModel = ViewModelProvider(this,viewModelFactory)[DetailViewModel::class.java]
+        val viewModel = ViewModelProvider(this, viewModelFactory)[DetailViewModel::class.java]
         binding.viewModel = viewModel
         return binding.root
     }

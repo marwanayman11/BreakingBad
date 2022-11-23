@@ -1,4 +1,5 @@
 package com.example.breakingbad.repository
+
 import com.example.breakingbad.Character
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
@@ -11,11 +12,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class Repository(private val database: CharactersRoom) {
-    val characters : LiveData<List<Character>> = Transformations.map(database.charactersDao.getCharacters()){
-        it.asDomainModel()
-    }
-    suspend fun refreshCharacters(){
-        withContext(Dispatchers.IO){
+    val characters: LiveData<List<Character>> =
+        Transformations.map(database.charactersDao.getCharacters()) {
+            it.asDomainModel()
+        }
+
+    suspend fun refreshCharacters() {
+        withContext(Dispatchers.IO) {
             val result = Api.retrofitService.getCharacters()
             val container = CharacterNetworkContainer(result)
             database.charactersDao.insertAll(*container.asDatabaseModel())

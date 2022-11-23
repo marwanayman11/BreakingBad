@@ -16,21 +16,23 @@ class CharactersFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View{
+    ): View {
         // Inflate the layout for this fragment
         val binding = FragmentCharactersBinding.inflate(layoutInflater)
         val application = requireNotNull(this.activity).application
         val viewModelFactory = CharactersViewModelFactory(application)
-        val viewModel = ViewModelProvider(this,viewModelFactory)[CharactersViewModel::class.java]
-        val adapter = CharactersAdapter(CharactersAdapter.OnClickListener{
-           viewModel.displayCharacterDetails(it)
+        val viewModel = ViewModelProvider(this, viewModelFactory)[CharactersViewModel::class.java]
+        val adapter = CharactersAdapter(CharactersAdapter.OnClickListener {
+            viewModel.displayCharacterDetails(it)
         })
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.characters.adapter = adapter
-        viewModel.navigateToSelectedCharacter.observe(viewLifecycleOwner){
-            if(null != it){
-                this.findNavController().navigate(CharactersFragmentDirections.actionCharactersFragmentToDetailFragment(it))
+        viewModel.navigateToSelectedCharacter.observe(viewLifecycleOwner) {
+            if (null != it) {
+                this.findNavController().navigate(
+                    CharactersFragmentDirections.actionCharactersFragmentToDetailFragment(it)
+                )
                 viewModel.displayCharacterDetailsComplete()
             }
         }

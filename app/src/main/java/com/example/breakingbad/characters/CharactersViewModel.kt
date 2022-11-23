@@ -15,25 +15,29 @@ class CharactersViewModel(application: Application) : AndroidViewModel(applicati
     private val database = getDatabase(application)
     private val repository = Repository(database)
     private val _navigateToSelectedCharacter = MutableLiveData<Character?>()
-    val navigateToSelectedCharacter : LiveData<Character?>
-    get() = _navigateToSelectedCharacter
+    val navigateToSelectedCharacter: LiveData<Character?>
+        get() = _navigateToSelectedCharacter
     val characters = repository.characters
+
     init {
         getCharacters()
     }
-    private fun getCharacters(){
+
+    private fun getCharacters() {
         viewModelScope.launch {
             try {
                 repository.refreshCharacters()
-            }catch (e : Exception){
+            } catch (e: Exception) {
                 Timber.e("no connection")
             }
         }
     }
-    fun displayCharacterDetails(character: Character){
+
+    fun displayCharacterDetails(character: Character) {
         _navigateToSelectedCharacter.value = character
     }
-    fun displayCharacterDetailsComplete(){
+
+    fun displayCharacterDetailsComplete() {
         _navigateToSelectedCharacter.value = null
     }
 }
